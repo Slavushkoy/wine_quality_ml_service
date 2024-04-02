@@ -15,7 +15,7 @@ class User:
         self.last_name = last_name
         self.email = email
         self.login = login
-        self.password = password
+        self._password = password
 
     # Авторизация пользователя
     def authorization(self):
@@ -101,9 +101,9 @@ class Transaction:
     def __init__(self,
                  user_id: int,
                  data_start: datetime,
-                 input_data: list,
+                 input_data: dict,
                  data_end: datetime,
-                 response: str,
+                 output_data: dict,
                  balance_change: float,
                  status_code: str,
                  ):
@@ -111,6 +111,6 @@ class Transaction:
         self.data_start = data_start
         self.input_data = input_data
         self.data_end = data_end
-        self.response = response
+        self.output_data = output_data
         self.balance_change = balance_change
         self.status_code = status_code
