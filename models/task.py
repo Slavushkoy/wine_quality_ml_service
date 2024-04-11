@@ -1,3 +1,7 @@
+import sys
+
+sys.path.append(r'C:\Users\slavu\Start_ML\4. MLService\ml_service')
+
 from database.database import Base, SessionLocal, engine
 from sqlalchemy import Column, Integer, ForeignKey, TIMESTAMP, JSON
 from user import User

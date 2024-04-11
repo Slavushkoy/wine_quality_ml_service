@@ -1,3 +1,7 @@
+import sys
+
+sys.path.append(r'C:\Users\slavu\Start_ML\4. MLService\ml_service')
+
 from database.database import Base, SessionLocal, engine
 from sqlalchemy import Column, Integer, String, Float
 
@@ -17,10 +21,10 @@ class Model(Base):
     #     return VineOutput(predicted_quality=quality)
 
 
-# Создание таблиц
+# # Создание таблиц
 # if __name__ == "__main__":
 #     Base.metadata.create_all(engine)
-#
+
 # # Добавление тестового администратора
 # if __name__ == "__main__":
 #     session = SessionLocal()

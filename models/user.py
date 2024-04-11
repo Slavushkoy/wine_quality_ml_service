@@ -1,6 +1,11 @@
 from sqlalchemy.exc import NoResultFound
+
+import sys
+
+sys.path.append(r'C:\Users\slavu\Start_ML\4. MLService\ml_service')
+
 from database.database import Base, SessionLocal, engine
-from sqlalchemy import Column, Integer, String, ForeignKey, Float, Boolean
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, Boolean, BigInteger
 from sqlalchemy import update
 
 
@@ -13,6 +18,7 @@ class User(Base):
     last_name = Column(String)
     email = Column(String, unique=True)
     admin = Column(Boolean, default=False)
+    chat_id = Column(BigInteger, default=None)
 
     @classmethod
     def registration(cls, login, password, first_name, last_name, email):
@@ -22,7 +28,7 @@ class User(Base):
         # Проверка на уникальность логина и email
         if session.query(User).filter_by(login=login).first() or \
                 session.query(User).filter_by(email=email).first():
-            raise ValueError("Логин или email уже заняты")
+            raise ValueError("Login or email is already taken")
         session.add(new_user)
         session.commit()
 
@@ -37,11 +43,42 @@ class User(Base):
         try:
             user = session.query(User).filter(User.login == login).one()
             if user.password == password:
-                return True
+                return user.id
             else:
                 return False
         except NoResultFound:
             return False
+        finally:
+            session.close()
+
+    @classmethod
+    def add_chat_id(cls, user_id, chat_id):
+        session = SessionLocal()
+        try:
+            # Проверяем, существует ли уже пользователь с таким chat_id
+            existing_user = session.query(User).filter(User.chat_id == chat_id).first()
+            if existing_user:
+                # Очищаем chat_id в старых записях
+                session.query(User).filter(User.chat_id == chat_id).update({"chat_id": None})
+
+            # Обновляем информацию о пользователе
+            session.query(User).filter(User.id == user_id).update({"chat_id": chat_id})
+            session.commit()
+        except Exception as e:
+            session.rollback()
+            return e
+        finally:
+            session.close()
+
+    @classmethod
+    def get_user_id(cls, chat_id):
+        session = SessionLocal()
+        try:
+            user = session.query(User).filter(User.chat_id == chat_id).one()
+            return user.id
+        except Exception as e:
+            session.rollback()
+            return e
         finally:
             session.close()
 
