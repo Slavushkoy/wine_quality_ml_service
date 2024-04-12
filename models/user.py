@@ -20,6 +20,8 @@ class User(Base):
     admin = Column(Boolean, default=False)
     chat_id = Column(BigInteger, default=None)
 
+
+class UserBusiness:
     @classmethod
     def registration(cls, login, password, first_name, last_name, email):
         session = SessionLocal()
@@ -88,6 +90,8 @@ class Balance(Base):
     user_id = Column(Integer, ForeignKey(User.id), primary_key=True)
     balance = Column(Float)
 
+
+class BalanceBusiness:
     # Проверка баланса пользователем
     @classmethod
     def check_balance(cls, user_id):
@@ -100,7 +104,7 @@ class Balance(Base):
     def check_balance_binary(cls, user_id):
         session = SessionLocal()
         balance = session.query(Balance).filter(Balance.user_id == user_id).one()
-        if balance.balance > 100:
+        if balance.balance >= 100:
             return True
         else:
             return False

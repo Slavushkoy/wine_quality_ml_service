@@ -1,5 +1,5 @@
 from telebot import types
-from models.user import User
+from models.user import UserBusiness
 
 
 class AuthenticationBot:
@@ -19,15 +19,15 @@ class AuthenticationBot:
     def get_password(self, message):
         self.password = message.text
         try:
-            user_id = User.authenticate(login=self.login, password=self.password)
+            user_id = UserBusiness.authenticate(login=self.login, password=self.password)
             if user_id:
-                self.bot.send_message(message.chat.id, "Пользователь успешно аутентифицирован")
+                self.bot.send_message(message.chat.id, "Пользователь успешно аутентифицирован.")
                 # Сохранение id для пользователя
-                User.add_chat_id(user_id=user_id, chat_id=message.chat.id)
+                UserBusiness.add_chat_id(user_id=user_id, chat_id=message.chat.id)
                 self.bot.send_message(message.chat.id, 'Теперь вы можете воспользоваться возможностями системы.')
                 self.callback(message)
             else:
-                self.bot.send_message(message.chat.id, "Логин и пароль введен не верно")
+                self.bot.send_message(message.chat.id, "Логин или пароль введен не верно")
 
                 markup = types.InlineKeyboardMarkup()
                 button_registration = types.InlineKeyboardButton(text='Регистрация', callback_data='registration')
@@ -70,9 +70,9 @@ class RegistrationBot:
     def get_email(self, message):
         self.email = message.text
         try:
-            User.registration(login=self.login, password=self.password, first_name=self.first_name,
+            UserBusiness.registration(login=self.login, password=self.password, first_name=self.first_name,
                               last_name=self.last_name, email=self.email)
-            self.bot.send_message(message.chat.id, "Пользователь успешно зарегистрирован")
+            self.bot.send_message(message.chat.id, "Пользователь успешно зарегистрирован.")
 
             markup = types.InlineKeyboardMarkup()
             button_authentication = types.InlineKeyboardButton(text='Авторизация', callback_data='authentication')

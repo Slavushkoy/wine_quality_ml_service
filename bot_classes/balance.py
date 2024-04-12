@@ -1,4 +1,4 @@
-from models.user import Balance, User
+from models.user import BalanceBusiness, UserBusiness
 
 
 class BalanceBot:
@@ -6,9 +6,9 @@ class BalanceBot:
         self.bot = bot
 
     def check_balance(self, message, callback=None):
-        user_id = User.get_user_id(chat_id=message.chat.id)
-        balance = Balance.check_balance(user_id=user_id)
-        self.bot.send_message(message.chat.id, f"{balance} кредитов")
+        user_id = UserBusiness.get_user_id(chat_id=message.chat.id)
+        balance = BalanceBusiness.check_balance(user_id=user_id)
+        self.bot.send_message(message.chat.id, f"Ваш баланс составляет {balance} кредитов")
         callback(message)
 
     def top_up_balance(self, message, callback=None):
@@ -19,8 +19,8 @@ class BalanceBot:
     def get_balance_add(self, message):
         try:
             balance_add = float(message.text)
-            user_id = User.get_user_id(chat_id=message.chat.id)
-            Balance.top_up_balance(user_id=user_id, balance_add=balance_add)
+            user_id = UserBusiness.get_user_id(chat_id=message.chat.id)
+            BalanceBusiness.top_up_balance(user_id=user_id, balance_add=balance_add)
             self.bot.send_message(message.chat.id, "Операция выполнена успешно!")
             self.callback(message)
         except ValueError:

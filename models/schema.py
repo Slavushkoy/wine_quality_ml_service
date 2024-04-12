@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-import datetime
 
 
 class VineInput(BaseModel):
@@ -14,13 +13,6 @@ class VineInput(BaseModel):
     pH: float
     sulphates: float
     alcohol: float
-
-    class Config:
-        from_attributes = True
-
-
-class VineOutput(BaseModel):
-    predicted_quality: float
 
     class Config:
         from_attributes = True

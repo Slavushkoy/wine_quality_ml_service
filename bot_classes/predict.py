@@ -1,3 +1,8 @@
+import json
+from models.model import ModelBusiness
+from models.user import UserBusiness
+
+
 class PredictBot:
     def __init__(self, bot):
         self.bot = bot
@@ -100,12 +105,35 @@ class PredictBot:
     def get_alcohol(self, message):
         try:
             self.alcohol = float(message.text)
-            self.bot.send_message(message.chat.id, "Значения введены корректно. \nОжидайте предсказания")
+            self.bot.send_message(message.chat.id, "Ожидайте предсказания")
             self.predict(message)
         except ValueError:
             self.bot.send_message(message.chat.id, "Введено некорректное значение! \nПопробуйте еще раз.")
             self.bot.register_next_step_handler(message, self.get_alcohol)
 
     def predict(self, message):
-        self.bot.send_message(message.chat.id, "Вскоре здесь будет предсказание)")
+        wine_data = {"fixed_acidity": self.fixed_acidity,
+                   "volatile_acidity": self.volatile_acidity,
+                   "citric_acid": self.citric_acid,
+                   "residual_sugar": self.residual_sugar,
+                   "chlorides": self.chlorides,
+                   "free_sulfur_dioxide": self.free_sulfur_dioxide,
+                   "total_sulfur_dioxide": self.total_sulfur_dioxide,
+                   "density": self.density,
+                   "pH": self.ph,
+                   "sulphates": self.sulfates,
+                   "alcohol": self.alcohol}
+        wine_json = json.dumps(wine_data)
+        user_id = UserBusiness.get_user_id(message.chat.id)
+        response = ModelBusiness.predict(data=wine_json, user_id =user_id)
+        if response['status'] == 'success':
+            quality = response['response']
+            quality = round(quality,2)
+            self.bot.send_message(message.chat.id, f"Интересный выбор, оценка вашего вина: {quality} из 10")
+        elif response['status'] == 'fail':
+            self.bot.send_message(message.chat.id, response['response'])
+            self.bot.send_message(message.chat.id, 'Пополните баланс, и попробуйте еще раз')
+        elif response['status'] == 'error':
+            self.bot.send_message(message.chat.id, response['response'])
+            self.bot.send_message(message.chat.id, 'Возникла ошибка при валидации данных.\nПроверьте введенные значения и попробуйте еще раз')
         self.callback(message)

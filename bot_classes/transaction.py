@@ -1,5 +1,5 @@
-from models.transaction import Transaction
-from models.user import User
+from models.transaction import TransactionBusiness
+from models.user import UserBusiness
 
 
 class TransactionBot:
@@ -15,9 +15,14 @@ class TransactionBot:
     def get_limit(self, message):
         try:
             limit = float(message.text)
-            user_id = User.get_user_id(chat_id=message.chat.id)
-            transaction = Transaction.show_transaction(user_id=user_id, limit=limit)
-            self.bot.send_message(message.chat.id, f"{transaction}")
+            user_id = UserBusiness.get_user_id(chat_id=message.chat.id)
+            transactions = TransactionBusiness.show_transaction(user_id=user_id, limit=limit)
+            # Распечатка всех полей объектов класса Transaction
+            for transaction in transactions:
+                fields = [f"{key}: {value}" for key, value in transaction.__dict__.items() if
+                          key != '_sa_instance_state']
+                self.bot.send_message(message.chat.id, '\n'.join(fields))
+            self.callback(message)
         except ValueError:
             self.bot.send_message(message.chat.id, "Введено некорректное значение! \n Попробуйте еще раз.")
             self.callback(message)
