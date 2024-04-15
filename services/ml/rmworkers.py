@@ -11,7 +11,7 @@ sys.path.append(r'C:\Users\slavu\Start_ML\4. MLService\ml_service')
 from models.schema import VineInput
 
 # Загрузка модели
-model = load("./model")
+model = load("model")
 
 # Параметры подключения
 connection_params = pika.ConnectionParameters(

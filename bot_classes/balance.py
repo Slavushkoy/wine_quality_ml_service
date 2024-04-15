@@ -1,4 +1,4 @@
-from models.user import BalanceBusiness, UserBusiness
+from services.crud.user import BalanceBusiness, UserBusiness
 
 
 class BalanceBot:

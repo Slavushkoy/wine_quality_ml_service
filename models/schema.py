@@ -38,9 +38,12 @@ class UserAuthenticate(BaseModel):
 
 
 class BalanceInput(BaseModel):
-    user_id: int
     balance_add: float
 
     class Config:
         from_attributes = True
 
+
+class TokenResponse(BaseModel):
+    access_token: str
+    token_type: str

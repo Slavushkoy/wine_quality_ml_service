@@ -1,5 +1,5 @@
-from models.transaction import TransactionBusiness
-from models.user import UserBusiness
+from services.crud.transaction import TransactionBusiness
+from services.crud.user import UserBusiness
 
 
 class TransactionBot:

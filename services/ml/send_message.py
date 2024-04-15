@@ -1,6 +1,5 @@
 import pika
 import uuid
-import json
 
 # Параметры подключения
 connection_params = pika.ConnectionParameters(

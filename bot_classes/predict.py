@@ -1,6 +1,6 @@
 import json
-from models.model import ModelBusiness
-from models.user import UserBusiness
+from services.crud.model import ModelBusiness
+from services.crud.user import UserBusiness
 
 
 class PredictBot:

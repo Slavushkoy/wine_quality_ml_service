@@ -1,16 +1,17 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from models.schema import VineInput
-from models.model import ModelBusiness
-from ml_service.send_message import send_message
+from services.crud.model import ModelBusiness
+from services.ml.send_message import send_message
 import json
 from fastapi.responses import JSONResponse
+from auth.authenticate import authenticate, authenticate_cookie
 
 
 model_router = APIRouter(tags=["Model"])
 
 
 @model_router.get("/healthcheck/")
-def healthcheck():
+async def healthcheck():
     try:
         vine_input = {"fixed_acidity": 5,
                           "volatile_acidity": 5,
@@ -35,7 +36,9 @@ def healthcheck():
 
 
 @model_router.post("/predict/")
-def predict(data: VineInput, user_id: int):
+def predict(data: VineInput, user_id: str = Depends(authenticate_cookie)):
+    if not user_id:
+        user_id = Depends(authenticate)
     vine_input_dict = data.dict()
     vine_input_json = json.dumps(vine_input_dict)
     response = ModelBusiness.predict(data=vine_input_json, user_id=user_id)
@@ -44,7 +47,7 @@ def predict(data: VineInput, user_id: int):
         quality = round(quality, 2)
         return JSONResponse(content={"message": f"Интересный выбор, оценка вашего вина: {quality} из 10"}, status_code=200)
     elif response['status'] == 'fail':
-        return JSONResponse(content={"message": f"{response['response']}\nПополните баланс, и попробуйте еще раз."}, status_code=200)
+        return JSONResponse(content={"message": f"{response['response']}\nПополните баланс, и попробуйте еще раз."}, status_code=400)
     elif response['status'] == 'error':
         return JSONResponse(content={"message": f"{response['response']}\n'Возникла ошибка при валидации данных.\nПроверьте введенные значения и попробуйте еще раз'"},
-                            status_code=200)
+                            status_code=400)
