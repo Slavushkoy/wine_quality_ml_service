@@ -1,4 +1,4 @@
 /ml_service_venv
 config.py
 model
-ml_service/rabbitmq
+services/ml/rabbitmq
