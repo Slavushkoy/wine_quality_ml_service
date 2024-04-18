@@ -1,14 +1,18 @@
 import pika
 import uuid
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Параметры подключения
 connection_params = pika.ConnectionParameters(
-    host='localhost',  # Замените на адрес вашего RabbitMQ сервера
-    port=5672,          # Порт по умолчанию для RabbitMQ
-    virtual_host='/',   # Виртуальный хост (обычно '/')
+    host=os.getenv('RABBITMQ_HOST'),
+    port=int(os.getenv('RABBITMQ_PORT')),
+    virtual_host=os.getenv('RABBITMQ_VIRTUAL_HOST'),
     credentials=pika.PlainCredentials(
-        username='rmuser',  # Имя пользователя по умолчанию
-        password='rmpassword'   # Пароль по умолчанию
+        username=os.getenv('RABBITMQ_USERNAME'),
+        password=os.getenv('RABBITMQ_PASSWORD')
     ),
     heartbeat=30,
     blocked_connection_timeout=2
@@ -53,20 +57,3 @@ def send_message(message):
     consumer_tag = channel.basic_consume(queue=result_queue, on_message_callback=on_response, auto_ack=True)
     channel.start_consuming()
     return response
-
-
-# Для теста
-# if __name__ == "__main__":
-#     vine_input = {"fixed_acidity": 5,
-#                   "volatile_acidity": 5,
-#                   "citric_acid": 5,
-#                   "residual_sugar": 5,
-#                   "chlorides": 5,
-#                   "free_sulfur_dioxide": 5,
-#                   "total_sulfur_dioxide": 5,
-#                   "density": 5,
-#                   "pH": 5,
-#                   "sulphates": 5,
-#                   "alcohol": 5}
-#     wine_json = json.dumps(vine_input)
-#     print(send_message(wine_json))

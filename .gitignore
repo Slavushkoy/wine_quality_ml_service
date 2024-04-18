@@ -2,3 +2,6 @@
 config.py
 model
 services/ml/rabbitmq
+.idea/
+__pycache__
+.env

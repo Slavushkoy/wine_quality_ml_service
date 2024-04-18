@@ -9,18 +9,22 @@ from pydantic import ValidationError
 
 sys.path.append(r'C:\Users\slavu\Start_ML\4. MLService\ml_service')
 from models.schema import VineInput
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Загрузка модели
-model = load("model")
+model = load("./services/ml/model")
 
 # Параметры подключения
 connection_params = pika.ConnectionParameters(
-    host='localhost',  # Замените на адрес вашего RabbitMQ сервера
-    port=5672,  # Порт по умолчанию для RabbitMQ
-    virtual_host='/',  # Виртуальный хост (обычно '/')
+    host=os.getenv('RABBITMQ_HOST'),
+    port=int(os.getenv('RABBITMQ_PORT')),
+    virtual_host=os.getenv('RABBITMQ_VIRTUAL_HOST'),
     credentials=pika.PlainCredentials(
-        username='rmuser',  # Имя пользователя по умолчанию
-        password='rmpassword'  # Пароль по умолчанию
+        username=os.getenv('RABBITMQ_USERNAME'),
+        password=os.getenv('RABBITMQ_PASSWORD')
     ),
     heartbeat=30,
     blocked_connection_timeout=2
