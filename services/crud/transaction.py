@@ -18,12 +18,3 @@ class TransactionBusiness:
         session.add(new_user)
         session.commit()
 
-# # Тест
-# # Получение списка транзакций для user_id=1
-# transactions = TransactionBusiness.show_transaction(user_id=1)
-#
-# # Распечатка всех полей объектов класса Transaction
-# for transaction in transactions:
-#     for key, value in transaction.__dict__.items():
-#         if key != '_sa_instance_state':
-#             print(f"{key}: {value}")

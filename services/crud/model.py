@@ -37,21 +37,3 @@ class ModelBusiness:
             return response
 
 
-# Проверка работы предсказаний
-# if __name__ == "__main__":
-#     import json
-#
-#     vine_input = {"fixed_acidity": 5,
-#                   "volatile_acidity": 5,
-#                   "citric_acid": 5,
-#                   "residual_sugar": 5,
-#                   "chlorides": 5,
-#                   "free_sulfur_dioxide": 5,
-#                   "total_sulfur_dioxide": 5,
-#                   "density": 5,
-#                   "pH": 5,
-#                   "sulphates": 5,
-#                   "alcohol": 5}
-#     wine_json = json.dumps(vine_input)
-#     result = ModelBusiness.predict(data=wine_json, user_id=1)
-#     print(result)

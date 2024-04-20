@@ -116,25 +116,3 @@ class BalanceBusiness:
         balance_upd = update(Balance).where(Balance.user_id == user_id).values(balance=new_balance)
         session.execute(balance_upd)
         session.commit()
-
-
-
-# Регистрация тестового пользователя
-# UserBusiness.registration('login_dm', 'password_dm', 'first_name_dm', 'last_name_dm', 'email_dm')
-
-# Обновление данных в таблице Balance
-# BalanceBusiness.check_balance(1)
-# BalanceBusiness.top_up_balance(1, 500)
-# BalanceBusiness.check_balance(1)
-# BalanceBusiness.check_balance_binary(1)
-# BalanceBusiness.write_off_balance(1, 100)
-# BalanceBusiness.check_balance(1)
-
-# # Добавление тестового администратора
-# if __name__ == "__main__":
-#     session = SessionLocal()
-#
-#     new_user = User(login='admin_demo', password='demo_password', first_name='demo_first_name',
-#                     last_name='demo_last_name', email='admin_demo_email', admin=True)
-#     session.add(new_user)
-#     session.commit()

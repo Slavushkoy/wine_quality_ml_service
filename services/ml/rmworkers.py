@@ -7,7 +7,7 @@ import sys
 
 from pydantic import ValidationError
 
-sys.path.append(r'C:\Users\slavu\Start_ML\4. MLService\ml_service')
+sys.path.append(r'C:\Users\slavu\PycharmProjects\ml_service')
 from models.schema import VineInput
 from dotenv import load_dotenv
 import os

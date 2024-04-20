@@ -1,6 +1,6 @@
 import sys
 
-sys.path.append(r'C:\Users\slavu\Start_ML\4. MLService\ml_service')
+sys.path.append(r'C:\Users\slavu\PycharmProjects\ml_service')
 
 from database.database import Base, SessionLocal, engine
 from sqlalchemy import Column, Integer, String, ForeignKey, TIMESTAMP, Float, JSON
@@ -19,8 +19,8 @@ class Transaction(Base):
 
 
 # # Создание таблиц
-# if __name__ == "__main__":
-#     Base.metadata.create_all(engine)
+if __name__ == "__main__":
+    Base.metadata.create_all(engine)
 
 
 

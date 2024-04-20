@@ -1,13 +1,9 @@
+from sqlalchemy import Column, Integer, String, Float
 import sys
 
-sys.path.append(r'C:\Users\slavu\Start_ML\4. MLService\ml_service')
+sys.path.append(r'C:\Users\slavu\PycharmProjects\ml_service')
 
-from database.database import Base
-from sqlalchemy import Column, Integer, String, Float
-from services.ml.send_message import send_message
-from models.user import BalanceBusiness
-from models.transaction import TransactionBusiness
-from datetime import datetime
+from database.database import Base, engine
 
 
 class Model(Base):
@@ -18,17 +14,11 @@ class Model(Base):
     price = Column(Float)
 
 
-# # Создание таблиц
-# if __name__ == "__main__":
-#     Base.metadata.create_all(engine)
+# Создание таблиц
+if __name__ == "__main__":
+    Base.metadata.create_all(engine)
 
 
-# # Добавление тестовой записи
-# if __name__ == "__main__":
-#     session = SessionLocal()
-#     new_model = Model(name='model', description='Модель предсказывает оценку красного вина по его параметрам', price=100)
-#     session.add(new_model)
-#     session.commit()
 
 
 

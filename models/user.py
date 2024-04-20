@@ -1,12 +1,10 @@
-from sqlalchemy.exc import NoResultFound
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, Boolean, BigInteger
 
 import sys
 
-sys.path.append(r'C:\Users\slavu\Start_ML\4. MLService\ml_service')
+sys.path.append(r'C:\Users\slavu\PycharmProjects\ml_service')
 
-from database.database import Base, SessionLocal, engine
-from sqlalchemy import Column, Integer, String, ForeignKey, Float, Boolean, BigInteger
-from sqlalchemy import update
+from database.database import Base, engine
 
 
 class User(Base):
@@ -28,6 +26,6 @@ class Balance(Base):
 
 
 # Создание таблиц
-# if __name__ == "__main__":
-#     Base.metadata.create_all(engine)
+if __name__ == "__main__":
+    Base.metadata.create_all(engine)
 
