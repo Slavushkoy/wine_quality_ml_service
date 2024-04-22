@@ -1,18 +1,16 @@
 import pika
 import uuid
-from dotenv import load_dotenv
-import os
+from decouple import config
 
-load_dotenv()
 
 # Параметры подключения
 connection_params = pika.ConnectionParameters(
-    host=os.getenv('RABBITMQ_HOST'),
-    port=int(os.getenv('RABBITMQ_PORT')),
-    virtual_host=os.getenv('RABBITMQ_VIRTUAL_HOST'),
+    host=config('RABBITMQ_HOST'),
+    port=int(config('RABBITMQ_PORT')),
+    virtual_host=config('RABBITMQ_VIRTUAL_HOST'),
     credentials=pika.PlainCredentials(
-        username=os.getenv('RABBITMQ_USERNAME'),
-        password=os.getenv('RABBITMQ_PASSWORD')
+        username=config('RABBITMQ_USERNAME'),
+        password=config('RABBITMQ_PASSWORD')
     ),
     heartbeat=30,
     blocked_connection_timeout=2

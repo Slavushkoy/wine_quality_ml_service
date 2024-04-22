@@ -2,7 +2,7 @@ from extra_streamlit_components import CookieManager
 import streamlit as st
 import requests
 
-FASTAPI_URL = "http://localhost:8000"
+FASTAPI_URL = "http://api:8000"
 
 # Создаем экземпляр CookieManager
 cookie_manager = CookieManager()
