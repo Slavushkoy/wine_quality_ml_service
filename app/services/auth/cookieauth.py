@@ -4,7 +4,7 @@ from fastapi.security import OAuth2
 from fastapi.security.utils import get_authorization_scheme_param
 from fastapi import Depends, FastAPI, HTTPException, Request, Response, status
 from fastapi.openapi.models import OAuthFlows as OAuthFlowsModel
-from config import config
+from decouple import config
 
 
 class OAuth2PasswordBearerWithCookie(OAuth2):
@@ -37,7 +37,7 @@ class OAuth2PasswordBearerWithCookie(OAuth2):
         # IMPORTANT: this is the line that differs from FastAPI. Here we use 
         # `request.cookies.get(settings.COOKIE_NAME)` instead of 
         # `request.headers.get("Authorization")`
-        authorization: str = request.cookies.get(config['COOKIE_NAME'])
+        authorization: str = request.cookies.get(config('COOKIE_NAME'))
         scheme, param = get_authorization_scheme_param(authorization)
         if not authorization or scheme.lower() != "bearer":
             if self.auto_error:

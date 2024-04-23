@@ -1,13 +1,13 @@
 import telebot
 from telebot import types
-from config import config
 from bot_classes.user import RegistrationBot, AuthenticationBot
 from bot_classes.balance import BalanceBot
 from bot_classes.transaction import TransactionBot
 from bot_classes.predict import PredictBot
+from decouple import config
 
 
-botTimeWeb = telebot.TeleBot(config['bot_token'])
+botTimeWeb = telebot.TeleBot(config('BOT_TOKEN'))
 
 
 @botTimeWeb.message_handler(commands=['start'])

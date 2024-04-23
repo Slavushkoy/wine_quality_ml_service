@@ -1,10 +1,10 @@
-from config import config
 import time
 from datetime import datetime
 from fastapi import HTTPException, status 
 from jose import jwt, JWTError
+from decouple import config
 
-SECRET_KEY = config['SECRET_KEY']
+SECRET_KEY = config('SECRET_KEY')
 
 
 def create_access_token(user: str) -> str: 

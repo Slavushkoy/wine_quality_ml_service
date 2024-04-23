@@ -46,7 +46,7 @@ services:
     build:
       context: ./app/
       dockerfile: Dockerfile_worker
-#    restart: always
+    restart: always
     env_file:
       - .env
     volumes:
