@@ -1,8 +1,8 @@
 FROM python:3.10
 
-RUN pip install streamlit
-RUN pip install extra_streamlit_components
-RUN pip install requests
+RUN pip install streamlit --no-cache-dir
+RUN pip install extra_streamlit_components --no-cache-dir
+RUN pip install requests --no-cache-dir
 
 COPY front.py /app/front.py
 

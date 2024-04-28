@@ -14,6 +14,7 @@ services:
       - ./app:/app
     networks:
       - my_network
+
   streamlit:
     build: ./front/
     ports:
@@ -27,6 +28,7 @@ services:
       - api
     networks:
       - my_network
+
   rabbitmq:
     image: rabbitmq:3.13.1-management
     hostname: rabbitmq
@@ -42,6 +44,7 @@ services:
       - 5672:5672
     networks:
       - my_network
+
   worker:
     build:
       context: ./app/
@@ -55,6 +58,7 @@ services:
       - rabbitmq
     networks:
       - my_network
+
   bot:
     build:
       context: ./app/
@@ -68,6 +72,7 @@ services:
       - rabbitmq
     networks:
       - my_network
+
 networks:
   my_network:
     driver: bridge

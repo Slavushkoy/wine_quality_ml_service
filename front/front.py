@@ -28,7 +28,6 @@ def main():
                         cookies = response.cookies.get_dict()
                         for key, value in cookies.items():
                             cookie_manager.set(key, value)
-                        st.success('Пользователь авторизирован! Вы можете воспользоваться возможностями системы!')
                     elif response.status_code == 404:
                         st.error(response.json()['detail'])
                     elif response.status_code == 401:

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Response
 from fastapi.security import OAuth2PasswordRequestForm
-from config import config
+from decouple import config
 from auth.jwt_handler import create_access_token
 from auth.hash_password import HashPassword
 from services.crud.user import UserBusiness
@@ -18,15 +18,13 @@ async def login_for_access_token(response: Response, form_data: OAuth2PasswordRe
     if hash_password.verify_hash(form_data.password, user_exist.password):
         access_token = create_access_token(user_exist.id)
         response.set_cookie(
-            key=config['COOKIE_NAME'],
+            key=config('COOKIE_NAME'),
             value=f"Bearer {access_token}",
-            httponly=True,
-            path="/",
-            domain="localhost"
+            httponly=True
 
         )
 
-        return {config['COOKIE_NAME']: access_token, "token_type": "bearer"}
+        return {config('COOKIE_NAME'): access_token, "token_type": "bearer"}
 
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
