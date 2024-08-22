@@ -31,3 +31,14 @@ async def registration(user_id:str=Depends(authenticate_cookie)):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
+
+@balance_router.post("/")
+async def registration(user_id:str=Depends(authenticate)):
+    try:
+        if not user_id:
+            user_id = Depends(authenticate)
+
+        balance = BalanceBusiness.check_balance(user_id=user_id)
+        return {"message": f"Ваш баланс составляет {balance} кредитов"}
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))

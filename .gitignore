@@ -5,3 +5,4 @@ services/ml/rabbitmq
 .idea/
 __pycache__
 .env
+/rabbitmq
